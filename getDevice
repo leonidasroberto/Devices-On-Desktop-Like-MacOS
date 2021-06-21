@@ -1,0 +1,2 @@
+#!/bin/bash
+lsblk -P -f | grep $1 | awk -F "FSTYPE=" '{print $2}' | awk -F "\"" '{print $2}'
