@@ -11,7 +11,7 @@
 using namespace std;
 
 const string desktopname = "/Área\\ de\\ Trabalho/";
-const string removibleicon = "drive-harddisk-system";
+const string removibleicon = "drive-removable-usb";
 const string harddiskicon = "drive-harddisk-system";
 
 string replacer(string text)
@@ -65,7 +65,7 @@ void inputSave(set<string> scan, bool mod){
 
 	if (mod){
 		for(string line: scan){
-			///cout << "GRAVANDO NO ARQUIVO!!!";
+			/// << "GRAVANDO NO ARQUIVO!!!";
 			file << line << "\n";
 		}
 	} 
@@ -182,12 +182,15 @@ int main(){
 	while(true){
 		///cout << "mediaName -> " << mediaName << "\n";
 		if(status){
-			///cout << "CARREGANDO SALVO...";
-			scan=getSaved();
-		    status=false;	
+			///cout << "CARREGANDO SALVO..." << "\n";
+			///scan=getSaved();
+		    scan = saved;
+			status = false;	
+
 		}else{
-			///cout << "SCANEANDO...";
 			scan=scanner(mediaName);
+			////cout << scan;
+		
 		}
 
 		if(scan != saved){
@@ -199,13 +202,14 @@ int main(){
 			}
 			
 		} 
-		
+
 		///Verificar no diretório
 		for(string item: scan){
 			if(created.find(item) == created.end()){
 				string tipo = devicetype(item);
 				///cout << "TIPO -> " << tipo << "\n";
-				if(disk.find(tipo) != disk.end()){
+				///if(disk.find(tipo) == disk.end()){
+				if(find(disk.begin(), disk.end(), tipo) != disk.end()){
 					///cout << "É dicos rigido!" << "\n";
 					typeIcon(item, true, mediaName);
 				} else {
