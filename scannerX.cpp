@@ -206,10 +206,10 @@ int main(){
 		///Verificar no diretório
 		for(string item: scan){
 			if(created.find(item) == created.end()){
-				string tipo = devicetype(item);
+				string typeDev = devicetype(item);
 				///cout << "TIPO -> " << tipo << "\n";
 				///if(disk.find(tipo) == disk.end()){
-				if(find(disk.begin(), disk.end(), tipo) != disk.end()){
+				if(find(disk.begin(), disk.end(), typeDev) != disk.end()){
 					///cout << "É dicos rigido!" << "\n";
 					typeIcon(item, true, mediaName);
 				} else {
