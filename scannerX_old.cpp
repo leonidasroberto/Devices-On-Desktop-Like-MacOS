@@ -75,6 +75,14 @@ void inputSave(set<string> scan, bool mod){
 	file.close();
 }
 
+string devicetype(string n){
+	string cmd = "./getDevice ";
+	string device = execute(cmd.append(n));
+	device.erase(remove(device.begin(), device.end(), '\n'), device.end());
+	return device;
+
+}
+
 void createIcon(string name, string mediaName, string deskName){
 		if (name != ""){
 			string command = "ln -s ";
@@ -86,7 +94,6 @@ void createIcon(string name, string mediaName, string deskName){
 			system(command.c_str());
 		}
  }
-
  
  void removeIcon(string name, string deskName){
 	 	if(name != ""){
@@ -154,25 +161,6 @@ set<string> scanner(string dname){
 	return buffer;
 }
 
-
-bool isDisk(string name){
-	DIR *d = opendir("/dev/disk/by-label");
-	struct dirent *dir;
-	
-	while (dir = readdir(d)){
-		string v = dir->d_name;
-		if((v != ".") && (v != "..")){
-			///buffer.push_back(dir->d_name);
-			if (name == v){
-				closedir(d);
-				return true;
-			}
-		}
-	}
-	closedir(d);
-	return false;
- }
-
 enum dirNames {
 	DESKTOP=1,
 	MEDIA=2
@@ -186,9 +174,13 @@ int main(){
 	set<string> scan;
 	set<string> created;
 	set<string> saved = getSaved();
+	///string mediaName = "/media/leonidas/";
 	string mediaName = getDirname(dirNames::MEDIA);
 	string deskName = getDirname(dirNames::DESKTOP);
+	///DIR *d = opendir(getDirname().c_str());
+	///system("ls /home/leonidas/Downloads");
 	while(true){
+		///cout << "mediaName -> " << mediaName << "\n";
 		if(status){
 			///cout << "CARREGANDO SALVO..." << "\n";
 			///scan=getSaved();
@@ -214,7 +206,10 @@ int main(){
 		///Verificar no diretório
 		for(string item: scan){
 			if(created.find(item) == created.end()){
-				if(isDisk(item)){
+				string typeDev = devicetype(item);
+				///cout << "TIPO -> " << tipo << "\n";
+				///if(disk.find(tipo) == disk.end()){
+				if(find(disk.begin(), disk.end(), typeDev) != disk.end()){
 					///cout << "É dicos rigido!" << "\n";
 					typeIcon(item, true, mediaName);
 				} else {
@@ -244,7 +239,7 @@ int main(){
 			removeIcon(item, deskName);
 		}
 
-		sleepp(2000);
+		sleepp(3000);
 	}
 
 	////cout << "OK";
